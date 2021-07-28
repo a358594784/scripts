@@ -1,7 +1,7 @@
 /*
 京喜领88元红包
 活动入口：京喜app-》我的-》京喜领88元红包
-助力逻辑：自己京东账号相互助力
+助力逻辑：先自己京东账号相互助力，如有剩余助力机会，则助力作者
 温馨提示：如提示助力火爆，可尝试寻找京东客服
 脚本兼容: Quantumult X, Surge, Loon, JSBox, Node.js
 ==============Quantumult X==============
@@ -48,7 +48,7 @@ const BASE_URL = 'https://wq.jd.com/cubeactive/steprewardv3'
   let res = []
   res = await getAuthorShareCode('')
   if (!res) {
-   // $.http.get({url: 'https://purge.jsdelivr.net/gh/Aaron-lv/updateTeam@master/shareCodes/jxhb.json'}).then((resp) => {}).catch((e) => $.log('刷新CDN异常', e));
+ // $.http.get({url: ''}).then((resp) => {}).catch((e) => $.log('刷新CDN异常', e));
     await $.wait(1000)
     res = await getAuthorShareCode('')
   }
@@ -75,7 +75,7 @@ const BASE_URL = 'https://wq.jd.com/cubeactive/steprewardv3'
   }
   //互助
   console.log(`\n\n自己京东账号助力码：\n${JSON.stringify($.packetIdArr)}\n\n`);
-  console.log(`\n开始助力：自己账号内部互助\n`)
+  console.log(`\n开始助力：助力逻辑 先自己京东相互助力，如有剩余助力机会，则助力作者\n`)
   for (let i = 0; i < cookiesArr.length; i++) {
     cookie = cookiesArr[i];
     $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
@@ -86,7 +86,7 @@ const BASE_URL = 'https://wq.jd.com/cubeactive/steprewardv3'
       if ($.UserName === code['userName']) continue;
       console.log(`【${$.UserName}】去助力【${code['userName']}】邀请码：${code['strUserPin']}`);
       await enrollFriend(code['strUserPin']);
-      await $.wait(2500);
+      await $.wait(3000);
       if ($.max) continue
       if (!$.canHelp) break
     }
@@ -100,7 +100,7 @@ const BASE_URL = 'https://wq.jd.com/cubeactive/steprewardv3'
       if (!$.packetIdArr[i]) continue;
       console.log(`\n【${$.UserName}】去拆第${grade}个红包`);
       await openRedPack($.packetIdArr[i]['strUserPin'], grade);
-      await $.wait(1000);
+      await $.wait(2000);
     }
   }
 })()
@@ -112,7 +112,9 @@ const BASE_URL = 'https://wq.jd.com/cubeactive/steprewardv3'
     })
 async function main() {
   await joinActive();
+  await $.wait(2000)
   await getUserInfo()
+  await $.wait(2000)
 }
 //参与活动
 function joinActive() {
